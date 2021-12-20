@@ -1,0 +1,29 @@
+version: "3.8"
+x-backend: &backend
+  build:
+    context: .
+    dockerfile: ./Dockerfile
+  stdin_open: true
+  image: dinhnhat:1.0
+  tty: true
+  tmpfs:
+    - /tmp
+  volumes:
+    - .:/app:cached
+    - gems:/gems
+
+services:
+  runner:
+    <<: *backend
+    command: /bin/bash
+    ports:
+      - "4000:4000"
+
+  web:
+    <<: *backend
+    command: bundle exec jekyll serve --watch --trace --verbose --host 0.0.0.0
+    ports:
+      - "4000:4000"
+
+volumes:
+  gems:
