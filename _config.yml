@@ -1,3 +1,5 @@
-theme: jekyll-theme-architect
+theme: minima
 title: Technical blog
 description: Technical blog
+show_excerpts: true
+markdown: kramdown

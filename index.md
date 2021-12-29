@@ -1,37 +1,55 @@
-## Welcome to GitHub Pages
+---
+layout: default
+---
 
-You can use the [editor on GitHub](https://github.com/dinhnhat0401/dinhnhat0401.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files.
+{%- if site.posts.size > 0 -%}
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+<div class="container">
 
-### Markdown
+{%- for post in site.posts -%}
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+  <div class="card">
+    <img src="{{- post.image | relative_url -}}" class="card-image">
+    <div class="card-content">
 
-```markdown
-Syntax highlighted code block
+      {%- if site.posts.size > 0 -%}
 
-# Header 1
-## Header 2
-### Header 3
+      <div class="tag-wrapper">
+        {%- for tag in post.tags -%}
+          <span class="tag">{{ tag | capitalize }}</span>
+        {%- endfor -%}
+      </div>
 
-- Bulleted
-- List
+      {%- endif -%}
 
-1. Numbered
-2. List
+      <h3>
+        <a class="post-link" href="{{ post.url | relative_url }}">
+          {{ post.title | escape }}
+        </a>
+      </h3>
+      {%- if site.show_excerpts -%}
+        {{ post.excerpt }}
+      {%- endif -%}
 
-**Bold** and _Italic_ and `Code` text
+      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+      <span class="post-meta">{{ post.date | date: date_format }}</span>
 
-[Link](url) and ![Image](src)
-```
+    </div>
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+  </div>
 
-### Jekyll Themes
+{%- endfor -%}
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/dinhnhat0401/dinhnhat0401.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+</div>
 
-### Support or Contact
+{%- endif -%}
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+{% for tag in site.tags %}
+
+  <h3>{{ tag[0] }}</h3>
+  <ul>
+    {% for post in tag[1] %}
+      <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+{% endfor %}
